@@ -1,101 +1,101 @@
-# testing
+# Testing
 
-testing skill for AI agents. write tests at the right level. no bloat, no flaky suites, no misplaced tests.
+Testing skill for AI agents. Write tests at the right level. No bloat, no flaky suites, no misplaced tests.
 
-based on [Martin Fowler's testing pyramid](https://martinfowler.com/bliki/TestPyramid.html) — push tests down, justify every E2E test, and delete tests that don't catch real bugs.
+Based on [Martin Fowler's testing pyramid](https://martinfowler.com/bliki/TestPyramid.html) — push tests down, justify every E2E test, and delete tests that don't catch real bugs.
 
-## what this does
+## What It Does
 
-when an AI agent uses this skill, it will:
+When an AI agent uses this skill, it will:
 
-- pick the right test level (unit, integration, E2E) using a decision flowchart
-- reject framework-internals tests, config-value assertions, and duplicate E2E coverage
-- write component tests that assert html contracts, not implementation details
-- keep E2E suites focused on user journeys, not feature permutations
-- enforce one happy-path E2E test per journey — edge cases go to integration
+- Pick the right test level (unit, integration, E2E) using a decision flowchart
+- Reject framework-internals tests, config-value assertions, and duplicate E2E coverage
+- Write component tests that assert HTML contracts, not implementation details
+- Keep E2E suites focused on user journeys, not feature permutations
+- Enforce one happy-path E2E test per journey — edge cases go to integration
 
-## how to use with different AI tools
+## How to Use with Different AI Tools
 
-skill file is `SKILL.md`. copy the whole folder, not just the file.
+The skill file is `SKILL.md`. Copy the whole folder, not just the file.
 
-### github copilot (vs code)
+### GitHub Copilot (VS Code)
 
-**personal (works in all projects):**
+**Personal (works in all projects):**
 
 ```
 ~/.copilot/skills/testing/SKILL.md
 ```
 
-**project only:**
+**Project only:**
 
 ```
 .github/skills/testing/SKILL.md
 ```
 
-then in chat: `/testing` or describe a testing task.
+Then in chat: `/testing` or describe a testing task.
 
-### claude code (cli)
+### Claude Code (CLI)
 
-**personal:**
+**Personal:**
 
 ```
 ~/.claude/skills/testing/SKILL.md
 ```
 
-**project only:**
+**Project only:**
 
 ```
 .claude/skills/testing/SKILL.md
 ```
 
-### opencode
+### OpenCode
 
-**personal:**
+**Personal:**
 
 ```
 ~/.agents/skills/testing/SKILL.md
 ```
 
-**project only:**
+**Project only:**
 
 ```
 .agents/skills/testing/SKILL.md
 ```
 
-### oh-my-pi / pi agent
+### Oh My Pi / Pi Agent
 
-**personal:**
+**Personal:**
 
 ```
 ~/.pi/agent/skills/testing/SKILL.md
 ```
 
-**project only:**
+**Project only:**
 
 ```
 .pi/skills/testing/SKILL.md
 ```
 
-### cursor ai
+### Cursor AI
 
-1. create `.cursor/rules/testing.mdc` in project root
-2. paste the `SKILL.md` body (skip yaml frontmatter)
-3. set rule type to "agent requested"
+1. Create `.cursor/rules/testing.mdc` in project root
+2. Paste the `SKILL.md` body (skip YAML frontmatter)
+3. Set rule type to "Agent Requested"
 
-### chatgpt / others
+### ChatGPT / Others
 
-1. copy `SKILL.md` body (skip yaml frontmatter)
-2. add to custom instructions or system prompt
-3. ask the AI to "follow the testing skill"
+1. Copy `SKILL.md` body (skip YAML frontmatter)
+2. Add to custom instructions or system prompt
+3. Ask the AI to "follow the testing skill"
 
-## example prompts
+## Example Prompts
 
 - "write tests for this feature using the testing skill"
 - "review these tests — are they at the right level?"
 - "this E2E test is really an integration test — demote it"
 - "our E2E suite is too big — which tests should move down?"
 
-## the pyramid in one picture
+## The Pyramid in One Picture
 
 ```
          /‾‾‾‾\          E2E: very few, real browser/environment
@@ -109,14 +109,14 @@ then in chat: `/testing` or describe a testing task.
  /________________________\
 ```
 
-**default to the lowest layer.** the burden of proof is on E2E.
+**Default to the lowest layer.** The burden of proof is on E2E.
 
-## references
+## References
 
 - Martin Fowler, "TestPyramid" — https://martinfowler.com/bliki/TestPyramid.html
 - Kent Beck, "Test-Driven Development: By Example"
 - Google Testing Blog, "Just Say No to More End-to-End Tests"
 
-## license
+## License
 
-do what you want. just write good tests.
+Do what you want. Just write good tests.
