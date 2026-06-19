@@ -119,4 +119,4 @@ Then in chat: `/testing` or describe a testing task.
 
 ## License
 
-Do what you want. Just write good tests.
+MIT — see [LICENSE](LICENSE).
