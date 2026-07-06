@@ -26,14 +26,15 @@ Use this skill when you need to:
 # The Testing Pyramid (Martin Fowler)
 
 ```
-         /‾‾‾‾\          E2E: very few, real browser/environment
-        /  few  \         Test user JOURNEYS that require real UI/runtime
-       /‾‾‾‾‾‾‾‾\
-      / moderate  \       Integration/Feature: moderate count, real deps
-     / integration \      Test API flows, DB interactions, framework features
-    /‾‾‾‾‾‾‾‾‾‾‾‾‾‾\
-   /     many fast    \   Unit: many, fast, isolated
-  / pure logic & rules \  Test functions, services, helpers — NO external deps
+          /‾‾‾‾‾‾\
+         /  few   \          E2E: very few, real browser/environment
+        /    UI    \         Test user journeys that require real UI/runtime
+       /‾‾‾‾‾‾‾‾‾‾‾‾\
+      /   moderate   \       Integration: moderate count, real deps
+     /   integration  \      Test API flows, DB interactions, framework features
+    /‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾\
+   /     many fast      \    Unit: many, fast, isolated
+  /  pure logic & rules  \   Test functions, services, helpers — no external deps
  /________________________\
 ```
 
@@ -232,28 +233,28 @@ class ButtonComponentTest extends TestCase
         $view = $this->blade(
             '<x-btn variant="primary">Submit</x-btn>'
         );
-        
+
         $view->assertSee('class="btn btn--primary"', false);
     }
-    
+
     /** @test */
     public function loading_state_renders_spinner_and_sets_aria_disabled()
     {
         $view = $this->blade(
             '<x-btn :loading="true">Submit</x-btn>'
         );
-        
+
         $view->assertSee('aria-disabled="true"', false);
         $view->assertSee('spinner'); // or however the spinner is identified
     }
-    
+
     /** @test */
     public function href_prop_renders_as_anchor_not_button()
     {
         $view = $this->blade(
             '<x-btn href="/shop">Browse</x-btn>'
         );
-        
+
         $view->assertSee('<a', false);
         $view->assertDontSee('<button', false);
     }
@@ -302,11 +303,11 @@ A **feature** is a technical capability:
 
 **Write E2E tests for:**
 
-| Journey type                                                           | Why E2E is needed                                                  |
-| ---------------------------------------------------------------------- | ------------------------------------------------------------------ |
-| Multi-step flows crossing pages (onboarding, checkout, signup)         | Cross-page state, redirects, session — can't fake with one request |
+| Journey type                                                            | Why E2E is needed                                                  |
+| ----------------------------------------------------------------------- | ------------------------------------------------------------------ |
+| Multi-step flows crossing pages (onboarding, checkout, signup)          | Cross-page state, redirects, session — can't fake with one request |
 | Flows requiring client-side interaction (modals, dynamic UI, drag/drop) | Client-side logic must actually run                                |
-| Cross-role journeys (user acts → admin reviews → user sees result)     | Multi-actor, multi-page state                                      |
+| Cross-role journeys (user acts → admin reviews → user sees result)      | Multi-actor, multi-page state                                      |
 | Keyboard navigation and focus management                                | Real UI/rendering only                                             |
 | Accessibility audits (axe-core, screen reader testing)                  | Requires rendered DOM                                              |
 | Visual regression (screenshot comparison)                               | Requires real rendering                                            |
@@ -317,17 +318,17 @@ A **feature** is a technical capability:
 
 **If you can test it with a direct API call or integration test, do that instead.**
 
-| ❌ E2E anti-pattern                                       | ✅ Write this instead                                       |
-| --------------------------------------------------------- | ----------------------------------------------------------- |
-| Navigate to form → fill → assert redirect                 | Integration: direct API call with expected response         |
-| Navigate to list page → assert item appears               | Integration: API call, assert response contains item        |
-| Assert HTTP status code                                   | Integration: assert response status directly                |
-| Assert a heading or label renders                         | Integration: assert response body contains expected text    |
-| Test that unauthorized user is redirected                 | Integration: auth/middleware test                            |
-| Test every form validation error message                  | Integration: input validation test                          |
-| Test notification/email is sent when form submitted       | Integration: fake the notification sender                    |
-| Create record via UI → assert record in DB                | Integration: test DB state directly                         |
-| Test a flow with zero client-side interaction             | Integration: it's just an HTTP flow                         |
+| ❌ E2E anti-pattern                                 | ✅ Write this instead                                    |
+| --------------------------------------------------- | -------------------------------------------------------- |
+| Navigate to form → fill → assert redirect           | Integration: direct API call with expected response      |
+| Navigate to list page → assert item appears         | Integration: API call, assert response contains item     |
+| Assert HTTP status code                             | Integration: assert response status directly             |
+| Assert a heading or label renders                   | Integration: assert response body contains expected text |
+| Test that unauthorized user is redirected           | Integration: auth/middleware test                        |
+| Test every form validation error message            | Integration: input validation test                       |
+| Test notification/email is sent when form submitted | Integration: fake the notification sender                |
+| Create record via UI → assert record in DB          | Integration: test DB state directly                      |
+| Test a flow with zero client-side interaction       | Integration: it's just an HTTP flow                      |
 
 **The litmus test:** Remove client-side JavaScript/rendering. If the test would still pass with plain API calls, it's an Integration test. Don't write it at E2E level.
 
@@ -383,21 +384,21 @@ Delete or demote anything that fails those questions.
 
 # What NOT to Test (Delete on Sight)
 
-| Anti-pattern                                  | Why it's harmful                                   |
-| --------------------------------------------- | -------------------------------------------------- |
-| Framework/ORM metadata assertions             | Tests framework internals, not your code           |
-| Type-casting/serialization assertions         | Same — language/framework behaviour                |
-| Relationship/association existence via DB     | Test via object construction or trust your schema  |
-| Config value assertions                       | Config files ARE the assertion                     |
-| `class_exists()` / import checks              | Module resolution works; this tests the runtime    |
-| Test fixture/factory shape assertions         | Fixtures are test infra, not production code       |
-| Exact HTML/template string matching           | Couples tests to formatting/whitespace             |
-| Testing that migrations/schema changes work   | Setup scripts/ORM already proves this              |
-| E2E test for a plain API call                 | Direct testing is faster, cheaper, more stable     |
-| E2E test for page content                     | Integration test with response assertion is enough |
-| E2E test for auth/redirect logic              | Integration middleware test handles this           |
-| E2E test for validation errors                | Integration input validation test is right level   |
-| Duplicate E2E + Integration test for same flow| Double maintenance cost, zero extra confidence     |
+| Anti-pattern                                   | Why it's harmful                                   |
+| ---------------------------------------------- | -------------------------------------------------- |
+| Framework/ORM metadata assertions              | Tests framework internals, not your code           |
+| Type-casting/serialization assertions          | Same — language/framework behaviour                |
+| Relationship/association existence via DB      | Test via object construction or trust your schema  |
+| Config value assertions                        | Config files ARE the assertion                     |
+| `class_exists()` / import checks               | Module resolution works; this tests the runtime    |
+| Test fixture/factory shape assertions          | Fixtures are test infra, not production code       |
+| Exact HTML/template string matching            | Couples tests to formatting/whitespace             |
+| Testing that migrations/schema changes work    | Setup scripts/ORM already proves this              |
+| E2E test for a plain API call                  | Direct testing is faster, cheaper, more stable     |
+| E2E test for page content                      | Integration test with response assertion is enough |
+| E2E test for auth/redirect logic               | Integration middleware test handles this           |
+| E2E test for validation errors                 | Integration input validation test is right level   |
+| Duplicate E2E + Integration test for same flow | Double maintenance cost, zero extra confidence     |
 
 ---
 
